@@ -8,7 +8,7 @@ Function run()->$request : 4D:C1709.HTTPRequest
 	$request:=4D:C1709.HTTPRequest.new(This:C1470.options.url; This:C1470.options)
 	
 Function url($url : Text)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.url:=$url
+	This:C1470.options.url:=$url
 	$builder:=This:C1470
 	
 	// MARK:- HTTP methods
@@ -114,5 +114,7 @@ Function onResponse($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequ
 	This:C1470.options.onResponse:=$callback
 	$builder:=This:C1470
 	
-	// TODO: others callback function
+	// TODO: others callback function from request
+	
+	// TODO: callback on specific status ode
 	
