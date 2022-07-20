@@ -4,9 +4,8 @@ Class constructor($client : cs:C1710.HTTPClient)
 	This:C1470.options:=New object:C1471
 	
 	// launch the request
-Function run()->$request : 4D:C1709.HTTPRequest
+Function build()->$request : 4D:C1709.HTTPRequest
 	$request:=4D:C1709.HTTPRequest.new(This:C1470.options.url; This:C1470.options)
-	$request.wait()
 	
 Function url($url : Text)->$builder : cs:C1710.HTTPRequestBuilder
 	This:C1470.options.url:=$url
