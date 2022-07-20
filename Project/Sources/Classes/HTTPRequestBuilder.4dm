@@ -6,6 +6,7 @@ Class constructor($client : cs:C1710.HTTPClient)
 	// launch the request
 Function run()->$request : 4D:C1709.HTTPRequest
 	$request:=4D:C1709.HTTPRequest.new(This:C1470.options.url; This:C1470.options)
+	$request.wait()
 	
 Function url($url : Text)->$builder : cs:C1710.HTTPRequestBuilder
 	This:C1470.options.url:=$url
@@ -60,14 +61,14 @@ Function head($url : Text)->$builder : cs:C1710.HTTPRequestBuilder
 	// MARK:- Headers
 Function appendHeader($name : Text; $value : Text)->$builder : cs:C1710.HTTPRequestBuilder
 	If (This:C1470.options.headers=Null:C1517)
-		This:C1470.options.headers:=New collection:C1472
+		This:C1470.options.headers:=New object:C1471
 	End if 
-	This:C1470.options.headers.push(New object:C1471("key"; $name; "value"; $value))
+	This:C1470.options.headers[$name]:=$value
 	$builder:=This:C1470
 	
 Function appendHeaders($headers : Variant)->$builder : cs:C1710.HTTPRequestBuilder
 	If (This:C1470.options.headers=Null:C1517)
-		This:C1470.options.headers:=New collection:C1472
+		This:C1470.options.headers:=New object:C1471
 	End if 
 	This:C1470._appendHeaders($headers)
 	
@@ -75,7 +76,7 @@ Function appendHeaders($headers : Variant)->$builder : cs:C1710.HTTPRequestBuild
 	
 	// Replace all headers
 Function setHeaders($headers : Variant)
-	This:C1470.options.headers:=New collection:C1472
+	This:C1470.options.headers:=New object:C1471
 	This:C1470._appendHeaders($headers)
 	
 Function _appendHeaders($headers : Variant)
@@ -83,13 +84,13 @@ Function _appendHeaders($headers : Variant)
 		: (Value type:C1509($headers)=Is object:K8:27)
 			var $name : Text
 			For each ($name; $headers)
-				This:C1470.options.headers.push(New object:C1471("key"; $name; "value"; $headers[$name]))
+				This:C1470.options.headers[$name]:=String:C10($headers[$name])
 			End for each 
 			
 		: (Value type:C1509($headers)=Is collection:K8:32)
 			var $entry : Object
 			For each ($entry; $headers)
-				This:C1470.options.headers.push($entry)  // XXX : could check if valid
+				This:C1470.options.headers[String:C10($entry.key || $entry.name)]:=String:C10($entry.value)
 			End for each 
 	End case 
 	
@@ -97,9 +98,9 @@ Function _appendHeaders($headers : Variant)
 Function version($version : Integer)->$builder : cs:C1710.HTTPRequestBuilder
 	Case of 
 		: ($version=1)
-			This:C1470.options.protocol:="HTTP1"
-		: ($version=3)
-			This:C1470.options.protocol:="HTTP3"
+			This:C1470.options.protocol:="HTTP1"/*
+: ($version=3)
+This.options.protocol:="HTTP3"*/
 		Else 
 			ASSERT:C1129(False:C215; "Unsupported protocol version "+String:C10($version))
 	End case 
@@ -114,7 +115,17 @@ Function onResponse($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequ
 	This:C1470.options.onResponse:=$callback
 	$builder:=This:C1470
 	
-	// TODO: others callback function from request
+Function onError($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
+	This:C1470.options.onError:=$callback
+	$builder:=This:C1470
+	
+Function onHeaders($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
+	This:C1470.options.onHeaders:=$callback
+	$builder:=This:C1470
+	
+Function onData($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
+	This:C1470.options.onData:=$callback
+	$builder:=This:C1470
 	
 	// TODO: callback on specific status ode
 	
