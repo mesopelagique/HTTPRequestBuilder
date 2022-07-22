@@ -29,7 +29,7 @@ $request:=$client.get("https://httpbin.org/")\
 
 ```4d
 Class constructor
-  This:C1470.client:=cs:C1710.HTTPClient.new()
+  This.client:=cs.HTTPClient.new()
 ```
 ```4d
 Function receiveHttpBinData($response : Object; $event : Object)
