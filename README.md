@@ -1,5 +1,11 @@
 # HTTPClassBuilder
 
+## Why using builder pattern
+
+Builder pattern allow 
+- to do one line of code to configure the request
+- to have code completion for request configuration features (instead of knowning by heart the property names of `4D.HTTPRequest`)
+
 ## Usage
 
 ```4d
