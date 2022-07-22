@@ -5,30 +5,44 @@
 var $client : cs:C1710.HTTPClient
 $client:=cs:C1710.HTTPClient.new()
 
-$handle:=$client.request()\
+var $request : 4D:C1709.HTTPRequest
+var $wait : Boolean
+$wait:=Not:C34(Shift down:C543)
+
+$request:=$client.request()\
 .GET()\
 .url("https://httpbin.org/")\
 .appendHeader("Toto"; "Totovalue")\
 .version(1)\
 .onResponse(Formula:C1597(ALERT:C41(JSON Stringify:C1217($1.response; *))))\
-.build()\
-.wait()
+.build()
 
-While (Not:C34($handle.terminated))
-	// Code I can execute while waiting for the request.
-	// If I don't have code to execute, I can replace the while by $request.wait()
-End while 
+If ($wait)
+	$request.wait()
+End if 
 
-$client.get("https://httpbin.org/")\
+$request:=$client.get("https://httpbin.org/")\
 .appendHeader("Toto"; "Totovalue")\
 .version(1)\
 .onTerminate(Formula:C1597(ALERT:C41(JSON Stringify:C1217($1.response; *))))\
-.build()\
-.wait()
+.build()
 
-$client.get("https://httpbin.org/")\
+If ($wait)
+	$request.wait()
+End if 
+
+$request:=$client.get("https://httpbin.org/")\
 .onTerminate(Formula:C1597(ALERT:C41(JSON Stringify:C1217($1.response; *))))\
-.build()\
-.wait()
+.build()
 
-cs:C1710._TestHTTPClass.new().build().wait()
+If ($wait)
+	$request.wait()
+End if 
+
+$request:=cs:C1710._TestHTTPClass.new().build()
+
+If ($wait)
+	$request.wait()
+End if 
+
+

@@ -3,7 +3,7 @@
 Class constructor
 	This:C1470.client:=cs:C1710.HTTPClient.new()
 	
-Function run()->$request : 4D:C1709.HTTPRequest
+Function build()->$request : 4D:C1709.HTTPRequest
 	$request:=This:C1470.client.get("https://httpbin.org/")\
 		.onTerminate(This:C1470.receiveCallback)\
 		.build()
