@@ -9,7 +9,8 @@ $client:=cs.HTTPClient.new()
 // Simple get request
 $client.get("https://httpbin.org/")\
 .onTerminateF(Formula(ALERT(JSON Stringify($1.response))))\
-.run()
+.build()\
+.wait()
 ````
 
 Simple get request in my class with function receiveHttpBinData as callback
@@ -17,7 +18,8 @@ Simple get request in my class with function receiveHttpBinData as callback
 ```4d
 $client.get("https://httpbin.org/")\
 .onTerminate(This.receiveHttpBinData)\
-.run()
+.build()\
+.wait()
 ```
 
 More "complex" request
@@ -29,5 +31,6 @@ $client.request()\
 	.appendHeader("Toto"; "Totovalue")\
 	.version(1)\
 	.onTerminate(Formula(ALERT(JSON Stringify($1.response))))\
-	.run()
+	.build()\
+	.wait()
 ```
