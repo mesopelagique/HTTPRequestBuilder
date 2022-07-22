@@ -16,7 +16,7 @@ $client.get("https://httpbin.org/")\
   .wait()
 ````
 
-or just getting request without waiting async
+or just getting request without waiting synchronously
 
 ```4d
 var $request: 4D.HTTPREquest
