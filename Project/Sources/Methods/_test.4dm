@@ -8,6 +8,10 @@ $client:=cs:C1710.HTTPClient.new()
 var $request : 4D:C1709.HTTPRequest
 var $wait : Boolean
 $wait:=Not:C34(Shift down:C543)
+$waitOnBag:=Macintosh option down:C545 || Windows Alt down:C563
+
+var $bag : cs:C1710.HTTPRequestBag
+$bag:=cs:C1710.HTTPRequestBag.new()
 
 $request:=$client.request()\
 .GET()\
@@ -19,6 +23,8 @@ $request:=$client.request()\
 
 If ($wait)
 	$request.wait()
+Else 
+	$bag.push($request)
 End if 
 
 $request:=$client.get("https://httpbin.org/")\
@@ -29,6 +35,8 @@ $request:=$client.get("https://httpbin.org/")\
 
 If ($wait)
 	$request.wait()
+Else 
+	$bag.push($request)
 End if 
 
 $request:=$client.get("https://httpbin.org/")\
@@ -37,12 +45,20 @@ $request:=$client.get("https://httpbin.org/")\
 
 If ($wait)
 	$request.wait()
+Else 
+	$bag.push($request)
 End if 
 
 $request:=cs:C1710._TestHTTPClass.new().build()
 
 If ($wait)
 	$request.wait()
+Else 
+	$bag.push($request)
 End if 
 
+
+If ($waitOnBag)
+	$bag.wait()
+End if 
 
