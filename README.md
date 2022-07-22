@@ -5,15 +5,27 @@
 ```4d
 var $client : cs.HTTPClient
 $client:=cs.HTTPClient.new()
- 
-// Simple get request
+```
+
+### Simple get request
+
+```4d
 $client.get("https://httpbin.org/")\
 .onTerminate(Formula(ALERT(JSON Stringify($1.response))))\
 .build()\
 .wait()
 ````
 
-Simple get request in my class with function receiveHttpBinData as callback
+or just getting request without waiting async
+
+```4d
+var $request: 4D.HTTPREquest
+$request:=$client.get("https://httpbin.org/")\
+.onTerminate(Formula(ALERT(JSON Stringify($1.response))))\
+.build()
+````
+
+### Simple get request in my class with function receiveHttpBinData as callback
 
 ```4d
 $client.get("https://httpbin.org/")\
@@ -22,7 +34,7 @@ $client.get("https://httpbin.org/")\
 .wait()
 ```
 
-More "complex" request
+### More "complex" request
 
 ```4d
 $client.request()\
