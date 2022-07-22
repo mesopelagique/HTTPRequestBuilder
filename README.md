@@ -8,7 +8,7 @@ $client:=cs.HTTPClient.new()
  
 // Simple get request
 $client.get("https://httpbin.org/")\
-.onTerminateF(Formula(ALERT(JSON Stringify($1.response))))\
+.onTerminate(Formula(ALERT(JSON Stringify($1.response))))\
 .build()\
 .wait()
 ````
