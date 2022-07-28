@@ -106,24 +106,44 @@ This.options.protocol:="HTTP3"*/
 	$builder:=This:C1470
 	
 	// MARK:-callback
-Function onTerminate($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.options.onTerminate:=$callback
+Function onTerminate($callback : 4D:C1709.Function; $workerName : Text)->$builder : cs:C1710.HTTPRequestBuilder
+	If (Count parameters:C259>1)
+		This:C1470.options.onTerminate:=Formula:C1597(CALL WORKER:C1389($workerName; $callback))
+	Else 
+		This:C1470.options.onTerminate:=$callback
+	End if 
 	$builder:=This:C1470
 	
-Function onResponse($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.options.onResponse:=$callback
+Function onResponse($callback : 4D:C1709.Function; $workerName : Text)->$builder : cs:C1710.HTTPRequestBuilder
+	If (Count parameters:C259>1)
+		This:C1470.options.onResponse:=Formula:C1597(CALL WORKER:C1389($workerName; $callback))
+	Else 
+		This:C1470.options.onResponse:=$callback
+	End if 
 	$builder:=This:C1470
 	
-Function onError($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.options.onError:=$callback
+Function onError($callback : 4D:C1709.Function; $workerName : Text)->$builder : cs:C1710.HTTPRequestBuilder
+	If (Count parameters:C259>1)
+		This:C1470.options.onError:=Formula:C1597(CALL WORKER:C1389($workerName; $callback))
+	Else 
+		This:C1470.options.onError:=$callback
+	End if 
 	$builder:=This:C1470
 	
-Function onHeaders($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.options.onHeaders:=$callback
+Function onHeaders($callback : 4D:C1709.Function; $workerName : Text)->$builder : cs:C1710.HTTPRequestBuilder
+	If (Count parameters:C259>1)
+		This:C1470.options.onHeaders:=Formula:C1597(CALL WORKER:C1389($workerName; $callback))
+	Else 
+		This:C1470.options.onHeaders:=$callback
+	End if 
 	$builder:=This:C1470
 	
-Function onData($callback : 4D:C1709.Function)->$builder : cs:C1710.HTTPRequestBuilder
-	This:C1470.options.onData:=$callback
+Function onData($callback : 4D:C1709.Function; $workerName : Text)->$builder : cs:C1710.HTTPRequestBuilder
+	If (Count parameters:C259>1)
+		This:C1470.options.onData:=Formula:C1597(CALL WORKER:C1389($workerName; $callback))
+	Else 
+		This:C1470.options.onData:=$callback
+	End if 
 	$builder:=This:C1470
 	
 	// TODO: callback on specific status ode

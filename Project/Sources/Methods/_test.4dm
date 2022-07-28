@@ -62,3 +62,12 @@ If ($waitOnBag)
 	$bag.wait()
 End if 
 
+cs:C1710._TestHTTPClass.new().build().wait()
+
+$client.get("https://httpbin.org/")\
+.appendHeader("Toto"; "Totovalue")\
+.version(1)\
+.onTerminate(Formula:C1597(ALERT:C41(Current process name:C1392)); "MyWorker")\
+.build()\
+.wait()
+
